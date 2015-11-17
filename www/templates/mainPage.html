@@ -1,0 +1,81 @@
+<ion-slide-box on-slide-changed="slideHasChanged($index)" auto-play="true"  slide-interval="2000" does-continue="true" >
+  <ion-slide>
+      <img src="/img/ima1.jpg">
+  </ion-slide>
+  <ion-slide>
+         <img src="/img/ima2.jpg">
+  </ion-slide>
+  <ion-slide>
+      <img src="/img/ima3.jpg">
+  </ion-slide>
+  <ion-slide>
+      <img src="/img/ima4.jpg">
+  </ion-slide>
+  <ion-slide>
+      <img src="/img/ima5.jpg">
+  </ion-slide>
+</ion-slide-box>
+
+<ion-nav-buttons side="primary">
+ <button class="button" ng-click="doSomething()">
+   I'm a button on the primary of the navbar!
+ </button>
+</ion-nav-buttons>
+<div  align="center">
+
+    <img src="/img/vasavi.jpg" style="margin-top:1cm;">
+
+</div>
+<div class="row">
+
+       <div class="col" >
+
+         <a  href="#/app/modals/men"  class="item item-thumbnail-left boredr-remove">
+      <img src="/img/man.jpg" >
+      <h2 class="vertical-text">Man</h2>
+
+    </a>
+
+
+       </div>
+
+       <div class="col" >
+         <a  class="item item-thumbnail-left boredr-remove" href="#/app/modals/women">
+
+      <img src="/img/women.jpg" >
+      <h2 class="vertical-text">Women</h2>
+
+    </a>
+       </div>
+
+   </div>
+
+   <div class="row">
+
+           <div class="col" >
+             <a  href="#/{{item.id}}"  class="item item-thumbnail-left boredr-remove">
+
+          <img src="/img/child.jpg">
+          <h2 class="vertical-text">Children</h2>
+
+        </a>
+
+           </div>
+
+           <div class="col" >
+             <a  href="#/{{item.id}}"  class="item item-thumbnail-left boredr-remove">
+
+          <img src="/img/homedecor.jpg">
+          <h2 class="vertical-text">Home-Decor</h2>
+
+        </a>
+
+           </div>
+
+       </div>
+
+<a href="#/app/search">
+  <button class="button button-full button-positive" >
+   Search By Shop
+  </button>
+</a>

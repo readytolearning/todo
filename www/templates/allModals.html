@@ -1,0 +1,9 @@
+<ion-view view-title="Dresses Bazar">
+  <ion-content>
+    <ion-list>
+      <ion-item ng-repeat="eachModal in allModals" href="#/app/perticularModal/{{eachModal.model_id}}">
+        {{eachModal.model_name}}
+      </ion-item>
+    </ion-list>
+  </ion-content>
+</ion-view>

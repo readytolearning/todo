@@ -1,0 +1,19 @@
+  <ion-view view-title="Main Modals">
+    <ion-content>
+  <h1>{{Playlist}}</h1>
+  <ion-item ng-repeat="item in items"
+             class="item-thumbnail-left" href="#/app/showItem/{{item._id}}">
+
+     <img ng-src="{{item.item_image_url}}"  />
+     <h2 >{{item.item_name}}   </h2>
+     <h3 >Shop Name : {{item.shop_name}}</h3>
+      <h3 style="float:left;width:160px">Shop No : {{item.shop_no}}</h3>
+      <!-- Favourate -->
+       <a class="ion-android-favorite large-green" ng-if="item.favourite" ng-click="addToFavourites('{{item._id}}')"></a>
+       <!-- not favourite -->
+       <a  class="ion-android-favorite-outline large-green"  ng-if="!item.favourite" ng-click="addToFavourites('{{item._id}}')"></a>
+
+   </ion-item>
+
+    </ion-content>
+  </ion-view>

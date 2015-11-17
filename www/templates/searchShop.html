@@ -1,0 +1,20 @@
+<ion-view view-title="Dresses Bazar">
+  <ion-content>
+
+    <label class="item item-input">
+        <input type="text" placeholder="Shop Search" ng-model="search">
+    </label>
+
+
+    <ion-item ng-repeat="shop in shopDetails | filter:search"
+               class="item item-thumbnail-left"  href="#/app/shopInfo/{{shop.ShopNo}}" >
+
+      <img ng-src="{{shop.srcPath}}"  />
+
+       <h2>{{shop.ShopName}}</h2>
+        <h2>{{shop.ShopNo}}</h2>
+       <h3>{{shop.proieratorName}}</h3>
+
+     </ion-item>
+  </ion-content>
+</ion-view>

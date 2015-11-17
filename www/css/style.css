@@ -1,0 +1,15 @@
+.slider {
+    height: 200px;
+}
+
+.vertical-text {
+	transform: rotate(90deg);
+	transform-origin: 5px;
+}
+.boredr-remove{
+border-width: 0px;
+}
+.large-green{
+  font-size: 32px;
+   color: green
+ }
