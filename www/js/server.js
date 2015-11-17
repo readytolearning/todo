@@ -9,8 +9,8 @@ var express = require('C:/Users/P.Venkatesh/node_modules/express');
 
 var app = express();
 var fs = require("fs");
-/*//app.use(express.bodyParser());
-
+//app.use(express.bodyParser());
+/*
 var bodyParser = require('body-parser')
 app.use( bodyParser.json() );       // to support JSON-encoded bodies
 app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
