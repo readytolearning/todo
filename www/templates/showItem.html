@@ -1,17 +1,30 @@
   <ion-view view-title="Item">
     <ion-content ng-repeat="item in item">
-  <h2>Model :: {{item.item_name}} </h2>
-  <div class="item item-image">
-  <img ng-src="{{item.item_image_url}}" />
+
+  <h2 class="title">{{item.item_name}}</h2>
+
+
+      <div class="item item-body">
+  <img class="full-image" ng-src="{{item.item_image_url}}" />
+  <p>
+    <h3>Type : {{item.model_name}} <h3>
+      <h3>Description  : This is latest model <h3>
+
+      <h3>Shop Name : {{item.shop_name}} </h3>
+      <h3>Shop Name : {{item.shop_no}} </h3>
+  </p>
+  <p>
+    <a href="#" class="subdued">1 Like</a>
+    <a href="#" class="subdued">5 Viewed</a>
+  </p>
 </div>
-<h3>Type : {{item.model_name}} <h3>
-  <h3>Description  : This is latest model <h3>
 
-  <h3>Shop Name : {{item.shop_name}} </h3>
-  <h3>Shop Name : {{item.shop_no}} </h3>
+<div class="item tabs tabs-secondary tabs-icon-left">
+  <a class="tab-item" href="#">
+    <i class="icon ion-thumbsup"></i>
+    Favourated
+  </a>
 
-
-
-
+</div>
     </ion-content>
   </ion-view>

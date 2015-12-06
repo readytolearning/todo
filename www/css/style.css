@@ -13,3 +13,11 @@ border-width: 0px;
   font-size: 32px;
    color: green
  }
+.heading {
+  color: #333333;
+   font-family: 'Bitter', serif;
+   font-size: 25px;
+    font-weight: normal;
+     line-height: 30px;
+     margin: 0 0 20px;
+    }

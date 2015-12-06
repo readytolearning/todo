@@ -1,14 +1,21 @@
 <ion-view view-title="Item">
-  <ion-content class="item">
-<h1>Model :: Latest Shirt </h1>
+  <ion-content ng-repeat="shop in shopObj">
+<div class="heading">{{shop.shop_name}} --  Shop No : {{shop.shop_no}} (Owner : {{shop.shop_owner}} )</div>
+<div class="item item-image image-header">
+<img ng-src="{{shop.shop_image}}" />
+</div>
+<div class="list" ng-repeat="concept in shop.models_available">
 
-<img ng-src="http://imshopping.rediff.com/imgshop/800-1280/shopping/pixs/3807/m/maroon._the-very-stylish-maroon-shirt-for-men.jpg" width="50%"/>
-<h2>  Type : Shirt <h2>
-<h2 >  Description  : This shirt is latest<h2>
+    <div class="item item-divider" >
+      {{concept.model_for}}
 
-<h2>Sri Sai Shirt Materials(Shop-No : 101) </h2>
+    </div>
 
-
-
+    <ion-list>
+      <ion-item ng-repeat="model in concept.models" href="#/app/itemsUnderModelAndShop/{{shop._id}}/{{concept.model_for}}/{{model}}">
+        {{model}}
+      </ion-item>
+    </ion-list>
+</div>
   </ion-content>
 </ion-view>

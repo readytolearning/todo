@@ -21,7 +21,11 @@ angular.module('starter', ['ionic', 'starter.controllers'])
     });
 })
 
+
 .config(function($stateProvider, $urlRouterProvider) {
+
+
+
     $stateProvider
 
         .state('app', {
@@ -40,6 +44,17 @@ angular.module('starter', ['ionic', 'starter.controllers'])
             }
         }
     })
+
+    .state('app.createItems', {
+        url: '/createItems',
+        views: {
+            'menuContent': {
+                templateUrl: 'templates/createItems.html',
+                controller: 'createItemsCtrl'
+            }
+        }
+    })
+
 
     .state('app.browse', {
             url: '/browse',
@@ -80,12 +95,43 @@ angular.module('starter', ['ionic', 'starter.controllers'])
         }
     })
 
+    .state('app.shopOwner', {
+        url: '/shopOwner',
+        views: {
+            'menuContent': {
+                templateUrl: 'templates/shopOwner.html',
+                controller: 'shopOwnerCtrl'
+            }
+        }
+    })
+
+    .state('app.visitedItems', {
+        url: '/visitedItems/:shopId/:numberOfResults',
+        views: {
+            'menuContent': {
+                templateUrl: 'templates/top5Visited.html',
+                controller: 'visitedItemsCtrl'
+            }
+        }
+    })
+
+
     .state('app.shopInfo', {
-        url: '/shopInfo/:shopNo',
+        url: '/shopInfo/:shopId',
         views: {
             'menuContent': {
                 templateUrl: 'templates/shopInfo.html',
                 controller: 'shopInfoCtrl'
+            }
+        }
+    })
+
+    .state('app.itemsUnderModelAndShop', {
+        url: '/itemsUnderModelAndShop/:shopId/:modelFor/:modelName',
+        views: {
+            'menuContent': {
+                templateUrl: 'templates/perticularModal.html',
+                controller: 'itemsUnderModelAndShopCtrl'
             }
         }
     })

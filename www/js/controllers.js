@@ -1,6 +1,6 @@
 angular.module('starter.controllers', [])
 
-.controller('AppCtrl', function($scope, $ionicModal, $timeout, $http) {
+.controller('AppCtrl', function($scope, $ionicModal, $timeout, $http, $rootScope) {
 
     // With the new view caching in Ionic, Controllers are only called
     // when they are recreated or on app start, instead of every page change.
@@ -18,6 +18,46 @@ angular.module('starter.controllers', [])
     }).then(function(modal) {
         $scope.modal = modal;
     });
+
+
+    var itemIds = JSON.parse(window.localStorage['itemIdsBox'] || '{}');
+    $rootScope.favCount = itemIds.length;
+
+
+    $scope.showFavourites = function(){
+      var itemIds = JSON.parse(window.localStorage['itemIdsBox'] || '{}');
+      var items = JSON.stringify(itemIds);
+      console.log(items);
+    /*  $http.post('http://localhost:8081/getIteamsByIds/' + items).success(function(data) {
+      //console.log(data);
+      angular.forEach(data, function(eachItemObj, key) {
+        eachItemObj.favourite = true;
+      });
+
+      $http.post('http://localhost:8081/getIteamsByIds' + items).success(function(data) {
+      //console.log(data);
+      angular.forEach(data, function(eachItemObj, key) {
+        eachItemObj.favourite = true;
+      });*/
+
+  $http({
+    url: "http://localhost:8081/getIteamsByIds",
+    dataType: "json",
+    method: "POST",
+    data : 'val1=value1&items='+items,
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+      }
+}).success(function(response){
+  //  $scope.response = response;
+    $scope.favouriteList = [];
+    $scope.favouriteList = response;
+}).error(function(error){
+    $scope.error = error;
+});
+
+
+}
 
     // Triggered in the login modal to close it
     $scope.closeLogin = function() {
@@ -47,6 +87,26 @@ angular.module('starter.controllers', [])
         $scope.allModals = data;
     });
 })
+.controller('shopOwnerCtrl', function($scope, $http, $stateParams) {
+
+})
+
+
+.controller('shopInfoCtrl', function($scope, $http, $stateParams) {
+  $http.get('http://localhost:8081/shopInfo/' + $stateParams.shopId).success(function(data) {
+      console.log(data);
+      $scope.shopObj = data;
+  });
+
+})
+
+.controller('visitedItemsCtrl', function($scope, $http, $stateParams) {
+  $http.get('http://localhost:8081/visitedItems/' + $stateParams.shopId+'/'+$stateParams.numberOfResults).success(function(data) {
+      console.log(data);
+      $scope.items = data;
+  });
+
+})
 
 
 .controller('showItemCtrl', function($scope, $http, $stateParams) {
@@ -56,43 +116,61 @@ angular.module('starter.controllers', [])
     });
 })
 
+.controller('itemsUnderModelAndShopCtrl', function($scope, $http, $stateParams) {
+    $http.get('http://localhost:8081/itemsUnderModelAndShop/' + $stateParams.shopId +"/" +$stateParams.modelFor+"/"+$stateParams.modelName).success(function(data) {
+        console.log(data);
+        $scope.items = data;
+    });
+})
+
 
 .controller('serchShopCtrl', function($scope, $http) {
     var stringEx = '';
-    $http.get('http://localhost:8081/listUsers').success(function(data) {
+    $http.get('http://localhost:8081/listShops').success(function(data) {
         console.log(data);
+        $scope.shopDetails = data;
     });
-    $scope.shopDetails = [{
-        'ShopName': 'Sri Sai Dress Materials(Shop-No : 101)',
-        'ShopNo': "Shop No : 101",
-        'proieratorName': 'Satyam S',
-        'srcPath': 'https://farm4.staticflickr.com/3261/2801924702_ffbdeda927_d.jpg'
-    }, {
-        'ShopName': 'Divya Dress Styles',
-        'ShopNo': "Shop No : 111",
-        'proieratorName': 'Srinivas P',
-        'srcPath': 'https://farm4.staticflickr.com/3261/2801924702_ffbdeda927_d.jpg'
-    }, {
-        'ShopName': 'Sri Durga Dress Materials',
-        'ShopNo': "Shop No : 205",
-        'proieratorName': 'Ramayya Ch',
-        'srcPath': 'https://farm4.staticflickr.com/3261/2801924702_ffbdeda927_d.jpg'
-    }, {
-        'ShopName': 'Sri Durga Textiles',
-        'ShopNo': "Shop No : 201",
-        'proieratorName': 'Jagadishwar Setty',
-        'srcPath': 'https://farm4.staticflickr.com/3261/2801924702_ffbdeda927_d.jpg'
-    }];
 })
 
-.controller('favourtesCtrl', function($scope, $http, $stateParams) {
-    var itemIds = JSON.parse(window.localStorage['itemIdsBox'] || '{}');
-    var items = JSON.stringify(itemIds);
-    var v ={"name":"foo","color":"red"};
-    $http.post('http://localhost:8081/getIteamsByIds/' + items).success(function(data) {
-        console.log(data);
-        $scope.favouriteList = data;
-    });
+.controller('createItemsCtrl', function($scope, $http) {
+  
+})
+
+.controller('favourtesCtrl', function($scope, $http, $stateParams,$rootScope) {
+
+
+
+
+    $scope.addToFavourites = function(itemId) {
+        //window.localStorage['post'] = JSON.stringify(itemIds);
+         console.log("Add to favourites");
+        //var addToFavourites = false;
+        var itemObj;
+        angular.forEach($scope.favouriteList, function(eachItemObj, key1) {
+            if (eachItemObj._id == itemId) {
+                eachItemObj.favourite = !eachItemObj.favourite;
+                itemObj = eachItemObj;
+                $scope.favouriteList.splice(key1, 1);
+            }
+        });
+
+      //  $scope.favCount = $scope.favCount+1;
+
+        var itemIds = JSON.parse(window.localStorage['itemIdsBox'] || '{}');
+        if (!itemIds.length) {
+            window.localStorage['itemIdsBox'] = JSON.stringify(new Array(itemId));
+        } else if (itemIds.indexOf(itemId) == -1) {
+            itemIds.push(itemId);
+            $rootScope.favCount = $rootScope.favCount+1;
+            window.localStorage['itemIdsBox'] = JSON.stringify(itemIds);
+            window.localStorage[itemId] = JSON.stringify(itemObj);
+        } else {
+            itemIds.splice(itemIds.indexOf(itemId), 1);
+            $rootScope.favCount = $rootScope.favCount-1;
+            window.localStorage['itemIdsBox'] = JSON.stringify(itemIds);
+            window.localStorage[itemId] = '';
+        }
+    }
 
     console.log($scope.favouriteList);
 
@@ -100,7 +178,7 @@ angular.module('starter.controllers', [])
 })
 
 
-.controller('perticularModalCtrl', function($scope, $stateParams, $http) {
+.controller('perticularModalCtrl', function($scope, $stateParams, $http, $rootScope) {
 
     var itemIds = JSON.parse(window.localStorage['itemIdsBox'] || '{}');
 
@@ -139,10 +217,12 @@ angular.module('starter.controllers', [])
             window.localStorage['itemIdsBox'] = JSON.stringify(new Array(itemId));
         } else if (itemIds.indexOf(itemId) == -1) {
             itemIds.push(itemId);
+            $rootScope.favCount = $rootScope.favCount+1;
             window.localStorage['itemIdsBox'] = JSON.stringify(itemIds);
             window.localStorage[itemId] = JSON.stringify(itemObj);
         } else {
             itemIds.splice(itemIds.indexOf(itemId), 1);
+            $rootScope.favCount = $rootScope.favCount-1;
             window.localStorage['itemIdsBox'] = JSON.stringify(itemIds);
             window.localStorage[itemId] = '';
         }

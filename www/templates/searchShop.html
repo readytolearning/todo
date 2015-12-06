@@ -7,13 +7,13 @@
 
 
     <ion-item ng-repeat="shop in shopDetails | filter:search"
-               class="item item-thumbnail-left"  href="#/app/shopInfo/{{shop.ShopNo}}" >
+               class="item item-thumbnail-left"  href="#/app/shopInfo/{{shop._id}}" >
 
-      <img ng-src="{{shop.srcPath}}"  />
+      <img ng-src="{{shop.shop_image}}"  />
 
-       <h2>{{shop.ShopName}}</h2>
-        <h2>{{shop.ShopNo}}</h2>
-       <h3>{{shop.proieratorName}}</h3>
+       <h2>{{shop.shop_name}}</h2>
+        <h2>{{shop.shop_no}}</h2>
+       <h3>{{shop.shop_owner}}</h3>
 
      </ion-item>
   </ion-content>
