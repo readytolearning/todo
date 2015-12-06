@@ -74,8 +74,8 @@ angular.module('starter', ['ionic', 'starter.controllers'])
             }
         })
 
-    .state('app.playlists1', {
-        url: '/playlists1',
+    .state('app.mainPage', {
+        url: '/mainPage',
         views: {
             'menuContent': {
                 templateUrl: 'templates/mainPage.html',
@@ -159,6 +159,6 @@ angular.module('starter', ['ionic', 'starter.controllers'])
 
     // if none of the above states are matched, use this as the fallback
     //  $urlRouterProvider.otherwise('/app/playlists');
-    $urlRouterProvider.otherwise('/app/playlists1');
+    $urlRouterProvider.otherwise('/app/mainPage');
 
 });
