@@ -22,6 +22,9 @@ angular.module('starter.controllers', [])
 
     var itemIds = JSON.parse(window.localStorage['itemIdsBox'] || '{}');
     $rootScope.favCount = itemIds.length;
+    if($rootScope.favCount == ''){
+      $rootScope.favCount = 0;
+    }
 
 
     $scope.showFavourites = function(){
@@ -133,7 +136,7 @@ angular.module('starter.controllers', [])
 })
 
 .controller('createItemsCtrl', function($scope, $http) {
-  
+
 })
 
 .controller('favourtesCtrl', function($scope, $http, $stateParams,$rootScope) {
@@ -154,11 +157,14 @@ angular.module('starter.controllers', [])
             }
         });
 
-      //  $scope.favCount = $scope.favCount+1;
+        if( $rootScope.favCount == ''){
+          $rootScope.favCount = 0;
+        }
 
         var itemIds = JSON.parse(window.localStorage['itemIdsBox'] || '{}');
         if (!itemIds.length) {
             window.localStorage['itemIdsBox'] = JSON.stringify(new Array(itemId));
+            $rootScope.favCount = $rootScope.favCount+1;
         } else if (itemIds.indexOf(itemId) == -1) {
             itemIds.push(itemId);
             $rootScope.favCount = $rootScope.favCount+1;
@@ -212,9 +218,14 @@ angular.module('starter.controllers', [])
             }
         });
 
+        if( $rootScope.favCount == ''){
+          $rootScope.favCount = 0;
+        }
+
         var itemIds = JSON.parse(window.localStorage['itemIdsBox'] || '{}');
         if (!itemIds.length) {
             window.localStorage['itemIdsBox'] = JSON.stringify(new Array(itemId));
+            $rootScope.favCount = $rootScope.favCount+1;
         } else if (itemIds.indexOf(itemId) == -1) {
             itemIds.push(itemId);
             $rootScope.favCount = $rootScope.favCount+1;
