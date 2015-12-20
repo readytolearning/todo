@@ -114,7 +114,15 @@ angular.module('starter', ['ionic', 'starter.controllers'])
             }
         }
     })
-
+    .state('app.favouritedItems', {
+        url: '/favouritedItems/:shopId/:numberOfResults',
+        views: {
+            'menuContent': {
+                templateUrl: 'templates/top5Favourited.html',
+                controller: 'favouritedItemsListCtrl'
+            }
+        }
+    })
 
     .state('app.shopInfo', {
         url: '/shopInfo/:shopId',

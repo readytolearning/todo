@@ -112,6 +112,14 @@ angular.module('starter.controllers', [])
 })
 
 
+.controller('favouritedItemsListCtrl', function($scope, $http, $stateParams) {
+  $http.get('http://localhost:8081/favouritedItemsListCtrl/' + $stateParams.shopId+'/'+$stateParams.numberOfResults).success(function(data) {
+      console.log(data);
+      $scope.items = data;
+  });
+
+})
+
 .controller('showItemCtrl', function($scope, $http, $stateParams) {
     $http.get('http://localhost:8081/showItem/' + $stateParams.itemId).success(function(data) {
         console.log(data);
@@ -164,10 +172,14 @@ angular.module('starter.controllers', [])
         var itemIds = JSON.parse(window.localStorage['itemIdsBox'] || '{}');
         if (!itemIds.length) {
             window.localStorage['itemIdsBox'] = JSON.stringify(new Array(itemId));
+            $http.post('http://localhost:8081/makeFavourite/'+itemId).success(function(data) {
+            });
             $rootScope.favCount = $rootScope.favCount+1;
         } else if (itemIds.indexOf(itemId) == -1) {
             itemIds.push(itemId);
             $rootScope.favCount = $rootScope.favCount+1;
+            $http.post('http://localhost:8081/makeFavourite/'+itemId).success(function(data) {
+            });
             window.localStorage['itemIdsBox'] = JSON.stringify(itemIds);
             window.localStorage[itemId] = JSON.stringify(itemObj);
         } else {
@@ -225,10 +237,14 @@ angular.module('starter.controllers', [])
         var itemIds = JSON.parse(window.localStorage['itemIdsBox'] || '{}');
         if (!itemIds.length) {
             window.localStorage['itemIdsBox'] = JSON.stringify(new Array(itemId));
+            $http.post('http://localhost:8081/makeFavourite/'+itemId).success(function(data) {
+            });
             $rootScope.favCount = $rootScope.favCount+1;
         } else if (itemIds.indexOf(itemId) == -1) {
             itemIds.push(itemId);
             $rootScope.favCount = $rootScope.favCount+1;
+            $http.post('http://localhost:8081/makeFavourite/'+itemId).success(function(data) {
+            });
             window.localStorage['itemIdsBox'] = JSON.stringify(itemIds);
             window.localStorage[itemId] = JSON.stringify(itemObj);
         } else {

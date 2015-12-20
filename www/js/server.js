@@ -38,15 +38,35 @@ app.get('/visitedItems/:shopId/:numberOfResults', function(req, res) {
     //	return exString;
 });
 
-
-app.get('/listUsers/:objectName', function(req, res) {
+app.get('/favouritedItemsListCtrl/:shopId/:numberOfResults', function(req, res) {
     var usersObj;
-    console.log(req.params.objectName);
+    console.log(req.params.shopId);
+    console.log(req.params.numberOfResults);
+
+    res.header('Access-Control-Allow-Origin', "*");
+    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+    res.header('Access-Control-Allow-Headers', 'Content-Type');
+    db.items.find({
+        shop_id: req.params.shopId
+    }).sort( { fav_count: -1 } ).limit(parseInt(req.params.numberOfResults)).toArray(function(err,users) {
+      if (err) throw err;
+      usersObj = users;
+      // object of all the users
+      console.log(usersObj);
+      res.send(usersObj);
+      });
+    //	return exString;
+});
+
+
+app.get('/listUsers/:modelFor', function(req, res) {
+    var usersObj;
+    console.log(req.params.modelFor);
     res.header('Access-Control-Allow-Origin', "*");
     res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
     res.header('Access-Control-Allow-Headers', 'Content-Type');
     db.models.find({
-        model_for: req.params.objectName
+        model_for: req.params.modelFor
     }, function(err, users) {
         if (err) throw err;
         usersObj = users;
@@ -129,6 +149,32 @@ app.get('/itemsUnderModelAndShop/:shopId/:modelFor/:modelName', function(req, re
         if (err) throw err;
         itemObj = items;
         // object of all the users
+        console.log(itemObj);
+        res.send(itemObj);
+    });
+    //	return exString;
+});
+
+// Loading using ItemId
+app.post('/makeFavourite/:Itemid', function(req, res) {
+    var usersObj;
+    console.log(req.params.Itemid);
+    res.header('Access-Control-Allow-Origin', "*");
+    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+    res.header('Access-Control-Allow-Headers', 'Content-Type');
+
+
+    db.items.find(ObjectId(req.params.Itemid), function(err, itemsList) {
+        if (err) throw err;
+        itemObj = itemsList;
+        // object of all the users
+        console.log("item count is"+itemsList[0].fav_count);
+        db.items.update(
+           {
+              "_id": ObjectId(req.params.Itemid)
+            },
+            { $set: { "fav_count" : (itemsList[0].fav_count)+1 } }
+        );
         console.log(itemObj);
         res.send(itemObj);
     });
