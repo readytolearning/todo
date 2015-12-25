@@ -46,7 +46,7 @@ angular.module('starter', ['ionic', 'starter.controllers'])
     })
 
     .state('app.createItems', {
-        url: '/createItems',
+        url: '/createItems/:shopId',
         views: {
             'menuContent': {
                 templateUrl: 'templates/createItems.html',

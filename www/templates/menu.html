@@ -31,8 +31,10 @@
           Modals
         </ion-item>
 
-        <ion-item menu-close href="#/app/favourites" ng-click="showFavourites()" >
-          <a href="" class="ion-android-favorite small-green"></a><sup>{{favCount}}</sup> Favourites
+        <ion-item menu-close href="#/app/favourites" ng-click="showFavourites()" class="item-icon-right" >
+          Favourites
+          <i href=""  class="icon ion-android-favorite"><span class="badge badge-assertive icon-badge">{{favCount}}</span></i>
+
         </ion-item>
 
         <ion-item menu-close href="#/app/shopOwner"  >

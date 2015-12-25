@@ -21,3 +21,13 @@ border-width: 0px;
      line-height: 30px;
      margin: 0 0 20px;
     }
+
+    .item .icon .icon-badge {
+      position: absolute;
+      right: 0px;
+      font-size: 8px;
+    }
+
+    .icon{
+      width : 40px;
+    }
