@@ -165,9 +165,9 @@ angular.module('starter.controllers', [])
   console.log(data);
 
 
-  AWS.config.region = 'us-west-2'; // 1. Enter your region
-AWS.config.secretAccessKey =  "U8W2KQPFsWPA+ppwOemA1dt61D8gYfgQeTyUrlZw";
-AWS.config.accessKeyId = "AKIAJNAMP56JKYFCXOSA";
+  AWS.config.region = ''; // 1. Enter your region
+AWS.config.secretAccessKey =  "";
+AWS.config.accessKeyId = "";
 
 //var BUCKET_NAME = 'readytolearning';
 
