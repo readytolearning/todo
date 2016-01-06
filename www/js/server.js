@@ -1,4 +1,8 @@
-var databaseUrl = "mongodb://localhost:27017/test"
+var databaseUrl = "mongodb://localhost:27017/test";
+var BUCKET_NAME = 'readytolearning';
+
+
+
 var collections = ["models", "items","shops"];
 
 var ObjectId = require("C:/Users/P.Venkatesh/node_modules/mongodb").ObjectID;
@@ -11,13 +15,67 @@ var app = express();
 var fs = require("fs");
 //app.use(express.bodyParser());
 
+
+var fs = require('fs');
+
+var aws = require('aws-sdk');
+aws.config.loadFromPath('./AwsConfig.json');
+
+var s3 = new aws.S3();
+s3.setEndpoint('s3.amazonaws.com');
+
+
 var bodyParser = require('body-parser')
 app.use( bodyParser.json() );       // to support JSON-encoded bodies
 app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
   extended: true
 }));
 
+function getContentTypeByFile(fileName) {
+  var rc = 'application/octet-stream';
+  var fileNameLowerCase = fileName.toLowerCase();
 
+  if (fileNameLowerCase.indexOf('.html') >= 0) rc = 'text/html';
+  else if (fileNameLowerCase.indexOf('.css') >= 0) rc = 'text/css';
+  else if (fileNameLowerCase.indexOf('.json') >= 0) rc = 'application/json';
+  else if (fileNameLowerCase.indexOf('.js') >= 0) rc = 'application/x-javascript';
+  else if (fileNameLowerCase.indexOf('.png') >= 0) rc = 'image/png';
+  else if (fileNameLowerCase.indexOf('.jpg') >= 0) rc = 'image/jpg';
+
+  return rc;
+}
+
+app.post('/uploadItem', function(req, res) {
+    var usersObj;
+    console.log("--------------------");
+    console.log(req.params.fileData);
+      console.log(req.params.filemetaData);
+    res.header('Access-Control-Allow-Origin', "*");
+    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+    res.header('Access-Control-Allow-Headers', 'Content-Type');
+
+  var remoteFilename = "Image"+"/"+"123.jpg";
+//  var fileBuffer = fs.readFileSync(fileName);
+  //var metaData = getContentTypeByFile(fileName);
+  //console.log(metaData);
+  //.log("");
+  //console.log(s3);
+  s3.putObject({
+    ACL: 'public-read',
+    Bucket: BUCKET_NAME,
+    Key: remoteFilename,
+    Body: req.params.fileData,
+    ContentType:  req.params.filemetaData
+  }, function(error, response) {
+  console.log(error);
+  return response;
+  //  console.log('uploaded file[' + fileName + '] to [' + remoteFilename + '] as [' + metaData + ']');
+    //console.log(arguments);
+  });
+  return '';
+
+
+});
 app.get('/visitedItems/:shopId/:numberOfResults', function(req, res) {
     var usersObj;
     console.log(req.params.shopId);
@@ -113,14 +171,15 @@ app.get('/shopInfo/:shopId', function(req, res) {
 
 
 // Loading using modelId
-app.get('/itemsUnderModel/:modelId', function(req, res) {
+app.get('/itemsUnderModel/:modelFor/:modelName', function(req, res) {
     var usersObj;
     console.log(req.params.modelId);
     res.header('Access-Control-Allow-Origin', "*");
     res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
     res.header('Access-Control-Allow-Headers', 'Content-Type');
     db.items.find({
-        model_id: req.params.modelId
+        model_for : req.params.modelFor,
+        model_name: req.params.modelName
     }, function(err, users) {
         if (err) throw err;
         usersObj = users;

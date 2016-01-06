@@ -1,21 +1,26 @@
   <ion-view view-title="Item">
     <ion-content ng-repeat="item in item">
+<div class="heading" style="text-align:center;">{{item.item_name}}<div>
 
-  <h2 class="title">{{item.item_name}}</h2>
 
+      <div class="item item-body" style="text-align:left;">
+        <ion-slide-box on-slide-changed="slideHasChanged($index)" does-continue="true"  style="height:400px">
+          <ion-slide ng-repeat="imageURL in item.item_image_url">
+            <img class="full-image" ng-src="{{imageURL}}" />
+          </ion-slide>
 
-      <div class="item item-body">
-  <img class="full-image" ng-src="{{item.item_image_url}}" />
+        </ion-slide-box>
+
   <p>
     <h3>Type : {{item.model_name}} <h3>
       <h3>Description  : This is latest model <h3>
 
       <h3>Shop Name : {{item.shop_name}} </h3>
-      <h3>Shop Name : {{item.shop_no}} </h3>
+      <h3>Shop Number : {{item.shop_no}} </h3>
   </p>
   <p>
-    <a href="#" class="subdued">1 Like</a>
-    <a href="#" class="subdued">5 Viewed</a>
+    <a href="#" class="subdued">{{item.fav_count}} Like</a>
+    <a href="#" class="subdued">{{item.visited_count}} Viewed</a>
   </p>
 </div>
 

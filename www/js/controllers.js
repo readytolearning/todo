@@ -87,6 +87,7 @@ angular.module('starter.controllers', [])
 .controller('allModalsCtrl', function($scope, $http, $stateParams) {
     $http.get('http://localhost:8081/listUsers/' + $stateParams.modelFor).success(function(data) {
         console.log(data);
+        $scope.modelFor = $stateParams.modelFor;
         $scope.allModals = data;
     });
 })
@@ -130,7 +131,19 @@ angular.module('starter.controllers', [])
 .controller('itemsUnderModelAndShopCtrl', function($scope, $http, $stateParams) {
     $http.get('http://localhost:8081/itemsUnderModelAndShop/' + $stateParams.shopId +"/" +$stateParams.modelFor+"/"+$stateParams.modelName).success(function(data) {
         console.log(data);
-        $scope.items = data;
+        var tempArray = [];
+        $scope.items = [];
+        for(var i=0;i<data.length;i++){
+
+          if (i%2 !== 0) {
+            tempArray.push(data[i]);
+            $scope.items.push(tempArray);
+          } else {
+            tempArray = []
+            tempArray.push(data[i]);
+          }
+
+        }
     });
 })
 
@@ -144,6 +157,43 @@ angular.module('starter.controllers', [])
 })
 
 .controller('createItemsCtrl', function($scope, $http) {
+  $scope.uploadFile = function(files) {
+
+  var data = new FormData();
+  console.log(files[0]);
+  //data.append('file',  files[0]);
+  console.log(data);
+
+
+  AWS.config.region = 'us-west-2'; // 1. Enter your region
+AWS.config.secretAccessKey =  "U8W2KQPFsWPA+ppwOemA1dt61D8gYfgQeTyUrlZw";
+AWS.config.accessKeyId = "AKIAJNAMP56JKYFCXOSA";
+
+//var BUCKET_NAME = 'readytolearning';
+
+
+     var bucketName = 'readytolearning'; // Enter your bucket name
+     var bucket = new AWS.S3();
+
+
+     var params = {
+                   Key: "Images11/image1",
+                   Bucket: bucketName,
+                   ContentType: files[0].type,
+                   Body: files[0],
+                   ACL: 'public-read'
+               };
+
+
+           bucket.upload(params, function(err, data) {
+               if (err) {
+                  console.log("error");
+               } else {
+                    console.log("success");
+               }
+           });
+
+}
 
 })
 
@@ -157,6 +207,7 @@ angular.module('starter.controllers', [])
          console.log("Add to favourites");
         //var addToFavourites = false;
         var itemObj;
+
         angular.forEach($scope.favouriteList, function(eachItemObj, key1) {
             if (eachItemObj._id == itemId) {
                 eachItemObj.favourite = !eachItemObj.favourite;
@@ -171,11 +222,13 @@ angular.module('starter.controllers', [])
 
         var itemIds = JSON.parse(window.localStorage['itemIdsBox'] || '{}');
         if (!itemIds.length) {
+            console.log("1")
             window.localStorage['itemIdsBox'] = JSON.stringify(new Array(itemId));
             $http.post('http://localhost:8081/makeFavourite/'+itemId).success(function(data) {
             });
             $rootScope.favCount = $rootScope.favCount+1;
         } else if (itemIds.indexOf(itemId) == -1) {
+            console.log("2")
             itemIds.push(itemId);
             $rootScope.favCount = $rootScope.favCount+1;
             $http.post('http://localhost:8081/makeFavourite/'+itemId).success(function(data) {
@@ -183,6 +236,7 @@ angular.module('starter.controllers', [])
             window.localStorage['itemIdsBox'] = JSON.stringify(itemIds);
             window.localStorage[itemId] = JSON.stringify(itemObj);
         } else {
+          console.log("----")
             itemIds.splice(itemIds.indexOf(itemId), 1);
             $rootScope.favCount = $rootScope.favCount-1;
             window.localStorage['itemIdsBox'] = JSON.stringify(itemIds);
@@ -200,7 +254,7 @@ angular.module('starter.controllers', [])
 
     var itemIds = JSON.parse(window.localStorage['itemIdsBox'] || '{}');
 
-    $http.get('http://localhost:8081/itemsUnderModel/' + $stateParams.perticularModalId)
+    $http.get('http://localhost:8081/itemsUnderModel/' + $stateParams.modelFor + '/'+$stateParams.perticularModalName)
         .success(function(data) {
             angular.forEach(data, function(value, key) {
                 //value.favourite = false;
@@ -214,7 +268,22 @@ angular.module('starter.controllers', [])
                     });
                 }
             });
-            $scope.items = data;
+
+          var tempArray = [];
+          $scope.items = [];
+          for(var i=0;i<data.length;i++){
+
+            if (i%2 !== 0) {
+              tempArray.push(data[i]);
+              $scope.items.push(tempArray);
+            } else {
+              tempArray = []
+              tempArray.push(data[i]);
+            }
+
+          }
+          console.log($scope.items);
+          //  $scope.items = data;
         });
 
 
@@ -223,11 +292,13 @@ angular.module('starter.controllers', [])
 
         var addToFavourites = false;
         var itemObj;
-        angular.forEach($scope.items, function(eachItemObj, key1) {
+        angular.forEach($scope.items, function(eachItemObj1, key2) {
+          angular.forEach(eachItemObj1, function(eachItemObj, key1) {
             if (eachItemObj._id == itemId) {
                 eachItemObj.favourite = !eachItemObj.favourite;
                 itemObj = eachItemObj;
             }
+          });
         });
 
         if( $rootScope.favCount == ''){

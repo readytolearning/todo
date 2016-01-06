@@ -155,7 +155,7 @@ angular.module('starter', ['ionic', 'starter.controllers'])
     })
 
     .state('app.perticularModal', {
-        url: '/perticularModal/:perticularModalId',
+        url: '/perticularModal/:modelFor/:perticularModalName',
         views: {
             'menuContent': {
                 templateUrl: 'templates/perticularModal.html',

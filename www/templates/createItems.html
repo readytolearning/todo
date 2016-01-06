@@ -1,0 +1,49 @@
+<ion-view view-title="Item">
+  <ion-content >
+
+
+    <input type="file" name="file" onchange="angular.element(this).scope().uploadFile(this.files)"/>
+
+
+<label class="item item-input">
+  <input type="text" placeholder="Please Enter Item Name">
+</label>
+
+<label class="item item-input item-select">
+   <div class="input-label">
+   Model For :
+   </div>
+   <select>
+     <option>Mens</option>
+     <option selected>Women</option>
+     <option>Children</option>
+     <option>Home-Decor</option>
+
+   </select>
+ </label>
+
+ <label class="item item-input item-select">
+    <div class="input-label">
+    Model Type :
+    </div>
+    <select>
+      <option>Shirts</option>
+      <option selected>Pants</option>
+      <option>Chudidars</option>
+    </select>
+  </label>
+
+  <label class="item item-input text">
+  <textarea placeholder="Item Description*" rows="5"  ng-Required="true" name="description"></textarea>
+</label>
+<br/>
+<button class="button button-balanced" >
+Save Item
+</button>
+<button class="button button-assertive">
+Reset
+</button>
+
+
+  </ion-content>
+</ion-view>

@@ -4,7 +4,7 @@
   <ion-item ng-repeat="item in items"
              class="item-thumbnail-left" href="#/app/showItem/{{item._id}}" ng-mouseover="favImage = true" ng-mouseleave="favImage = false">
 
-     <img ng-src="{{item.item_image_url}}"  />
+     <img ng-src="{{item.item_image_url[0]}}"  />
      <h2 >{{item.item_name}}   </h2>
      <h3 >Shop Name : {{item.shop_name}}</h3>
       <h3 style="float:left;width:160px">Shop No : {{item.shop_no}}</h3>

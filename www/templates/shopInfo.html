@@ -1,10 +1,13 @@
 <ion-view view-title="Item">
   <ion-content ng-repeat="shop in shopObj">
-<div class="heading">{{shop.shop_name}} --  Shop No : {{shop.shop_no}} (Owner : {{shop.shop_owner}} )</div>
+    <div >
+  <div class="heading" style="text-align:center;">{{shop.shop_name}}<div>
+  <span style="font-size:20px;">  Sh. No : {{shop.shop_no}}  (Prop : {{shop.shop_owner}} )</span>
+</div>
 <div class="item item-image image-header">
 <img ng-src="{{shop.shop_image}}" />
 </div>
-<div class="list" ng-repeat="concept in shop.models_available">
+<div class="list" ng-repeat="concept in shop.models_available" style="text-align:left;">
 
     <div class="item item-divider" >
       {{concept.model_for}}
