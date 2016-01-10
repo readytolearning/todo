@@ -99,7 +99,10 @@ angular.module('starter.controllers', [])
 .controller('shopInfoCtrl', function($scope, $http, $stateParams) {
   $http.get('http://localhost:8081/shopInfo/' + $stateParams.shopId).success(function(data) {
       console.log(data);
-      $scope.shopObj = data;
+      $scope.shopObj = data[0];
+      var changeModel = function(obj){
+        console.log(obj)
+      }
   });
 
 })

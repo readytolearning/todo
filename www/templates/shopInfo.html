@@ -1,21 +1,28 @@
 <ion-view view-title="Item">
-  <ion-content ng-repeat="shop in shopObj">
+  <ion-content>
     <div >
-  <div class="heading" style="text-align:center;">{{shop.shop_name}}<div>
-  <span style="font-size:20px;">  Sh. No : {{shop.shop_no}}  (Prop : {{shop.shop_owner}} )</span>
+  <div class="heading" style="text-align:center;">{{shopObj.shop_name}}<div>
+  <span style="font-size:20px;">  Sh. No : {{shopObj.shop_no}}  (Prop : {{shopObj.shop_owner}} )</span>
 </div>
 <div class="item item-image image-header">
-<img ng-src="{{shop.shop_image}}" />
+<img ng-src="{{shopObj.shop_image}}" />
 </div>
-<div class="list" ng-repeat="concept in shop.models_available" style="text-align:left;">
+<div class="list">
 
-    <div class="item item-divider" >
-      {{concept.model_for}}
-
+  <label class="item item-input item-select item-calm">
+    <div class="input-label">
+      Models for
     </div>
+    <select ng-model="conceptObj" ng-options="concept as concept.model_for for concept in shopObj.models_available">
+    </select>
+  </label>
+
+</div>
+
+  <div class="list" style="text-align:left;">
 
     <ion-list>
-      <ion-item ng-repeat="model in concept.models" href="#/app/itemsUnderModelAndShop/{{shop._id}}/{{concept.model_for}}/{{model}}">
+      <ion-item ng-repeat="model in conceptObj.models" href="#/app/itemsUnderModelAndShop/{{shopObj._id}}/{{conceptObj.model_for}}/{{model}}">
         {{model}}
       </ion-item>
     </ion-list>
