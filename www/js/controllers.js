@@ -2,6 +2,9 @@ angular.module('starter.controllers', [])
 
 .controller('AppCtrl', function($scope, $ionicModal, $timeout, $http, $rootScope) {
 
+    $rootScope.serverURL =  "http://127.0.0.1:8081";
+
+
     // With the new view caching in Ionic, Controllers are only called
     // when they are recreated or on app start, instead of every page change.
     // To listen for when this page is active (for example, to refresh data),
@@ -44,7 +47,7 @@ angular.module('starter.controllers', [])
       });*/
 
   $http({
-    url: "http://localhost:8081/getIteamsByIds",
+    url:  $rootScope.serverURL+"/getIteamsByIds",
     dataType: "json",
     method: "POST",
     data : 'val1=value1&items='+items,
@@ -84,20 +87,20 @@ angular.module('starter.controllers', [])
     };
 })
 
-.controller('allModalsCtrl', function($scope, $http, $stateParams) {
-    $http.get('http://localhost:8081/listUsers/' + $stateParams.modelFor).success(function(data) {
+.controller('allModalsCtrl', function($scope, $http, $stateParams, $rootScope) {
+    $http.get( $rootScope.serverURL+'/listUsers/' + $stateParams.modelFor).success(function(data) {
         console.log(data);
         $scope.modelFor = $stateParams.modelFor;
         $scope.allModals = data;
     });
 })
-.controller('shopOwnerCtrl', function($scope, $http, $stateParams) {
+.controller('shopOwnerCtrl', function($scope, $http, $stateParams, $rootScope) {
 
 })
 
 
-.controller('shopInfoCtrl', function($scope, $http, $stateParams) {
-  $http.get('http://localhost:8081/shopInfo/' + $stateParams.shopId).success(function(data) {
+.controller('shopInfoCtrl', function($scope, $http, $stateParams, $rootScope) {
+  $http.get( $rootScope.serverURL+'/shopInfo/' + $stateParams.shopId).success(function(data) {
       console.log(data);
       $scope.shopObj = data[0];
       var changeModel = function(obj){
@@ -107,8 +110,8 @@ angular.module('starter.controllers', [])
 
 })
 
-.controller('visitedItemsCtrl', function($scope, $http, $stateParams) {
-  $http.get('http://localhost:8081/visitedItems/' + $stateParams.shopId+'/'+$stateParams.numberOfResults).success(function(data) {
+.controller('visitedItemsCtrl', function($scope, $http, $stateParams, $rootScope) {
+  $http.get( $rootScope.serverURL+'/visitedItems/' + $stateParams.shopId+'/'+$stateParams.numberOfResults).success(function(data) {
       console.log(data);
       $scope.items = data;
   });
@@ -116,23 +119,23 @@ angular.module('starter.controllers', [])
 })
 
 
-.controller('favouritedItemsListCtrl', function($scope, $http, $stateParams) {
-  $http.get('http://localhost:8081/favouritedItemsListCtrl/' + $stateParams.shopId+'/'+$stateParams.numberOfResults).success(function(data) {
+.controller('favouritedItemsListCtrl', function($scope, $http, $stateParams, $rootScope) {
+  $http.get( $rootScope.serverURL+'/favouritedItemsListCtrl/' + $stateParams.shopId+'/'+$stateParams.numberOfResults).success(function(data) {
       console.log(data);
       $scope.items = data;
   });
 
 })
 
-.controller('showItemCtrl', function($scope, $http, $stateParams) {
-    $http.get('http://localhost:8081/showItem/' + $stateParams.itemId).success(function(data) {
+.controller('showItemCtrl', function($scope, $http, $stateParams, $rootScope) {
+    $http.get( $rootScope.serverURL+'/showItem/' + $stateParams.itemId).success(function(data) {
         console.log(data);
         $scope.item = data;
     });
 })
 
-.controller('itemsUnderModelAndShopCtrl', function($scope, $http, $stateParams) {
-    $http.get('http://localhost:8081/itemsUnderModelAndShop/' + $stateParams.shopId +"/" +$stateParams.modelFor+"/"+$stateParams.modelName).success(function(data) {
+.controller('itemsUnderModelAndShopCtrl', function($scope, $http, $stateParams, $rootScope) {
+    $http.get( $rootScope.serverURL+'/itemsUnderModelAndShop/' + $stateParams.shopId +"/" +$stateParams.modelFor+"/"+$stateParams.modelName).success(function(data) {
         console.log(data);
         var tempArray = [];
         $scope.items = [];
@@ -151,15 +154,15 @@ angular.module('starter.controllers', [])
 })
 
 
-.controller('serchShopCtrl', function($scope, $http) {
+.controller('serchShopCtrl', function($scope, $http, $rootScope) {
     var stringEx = '';
-    $http.get('http://localhost:8081/listShops').success(function(data) {
+    $http.get( $rootScope.serverURL+'/listShops').success(function(data) {
         console.log(data);
         $scope.shopDetails = data;
     });
 })
 
-.controller('createItemsCtrl', function($scope, $http) {
+.controller('createItemsCtrl', function($scope, $http, $rootScope) {
   $scope.uploadFile = function(files) {
 
   var data = new FormData();
@@ -200,7 +203,7 @@ AWS.config.accessKeyId = "";
 
 })
 
-.controller('favourtesCtrl', function($scope, $http, $stateParams,$rootScope) {
+.controller('favourtesCtrl', function($scope, $http, $stateParams, $rootScope) {
 
 
 
@@ -227,14 +230,14 @@ AWS.config.accessKeyId = "";
         if (!itemIds.length) {
             console.log("1")
             window.localStorage['itemIdsBox'] = JSON.stringify(new Array(itemId));
-            $http.post('http://localhost:8081/makeFavourite/'+itemId).success(function(data) {
+            $http.post( $rootScope.serverURL+'/makeFavourite/'+itemId).success(function(data) {
             });
             $rootScope.favCount = $rootScope.favCount+1;
         } else if (itemIds.indexOf(itemId) == -1) {
             console.log("2")
             itemIds.push(itemId);
             $rootScope.favCount = $rootScope.favCount+1;
-            $http.post('http://localhost:8081/makeFavourite/'+itemId).success(function(data) {
+            $http.post( $rootScope.serverURL+'/makeFavourite/'+itemId).success(function(data) {
             });
             window.localStorage['itemIdsBox'] = JSON.stringify(itemIds);
             window.localStorage[itemId] = JSON.stringify(itemObj);
@@ -257,7 +260,7 @@ AWS.config.accessKeyId = "";
 
     var itemIds = JSON.parse(window.localStorage['itemIdsBox'] || '{}');
 
-    $http.get('http://localhost:8081/itemsUnderModel/' + $stateParams.modelFor + '/'+$stateParams.perticularModalName)
+    $http.get( $rootScope.serverURL+'/itemsUnderModel/' + $stateParams.modelFor + '/'+$stateParams.perticularModalName)
         .success(function(data) {
             angular.forEach(data, function(value, key) {
                 //value.favourite = false;
@@ -311,13 +314,13 @@ AWS.config.accessKeyId = "";
         var itemIds = JSON.parse(window.localStorage['itemIdsBox'] || '{}');
         if (!itemIds.length) {
             window.localStorage['itemIdsBox'] = JSON.stringify(new Array(itemId));
-            $http.post('http://localhost:8081/makeFavourite/'+itemId).success(function(data) {
+            $http.post( $rootScope.serverURL+'/makeFavourite/'+itemId).success(function(data) {
             });
             $rootScope.favCount = $rootScope.favCount+1;
         } else if (itemIds.indexOf(itemId) == -1) {
             itemIds.push(itemId);
             $rootScope.favCount = $rootScope.favCount+1;
-            $http.post('http://localhost:8081/makeFavourite/'+itemId).success(function(data) {
+            $http.post( $rootScope.serverURL+'/makeFavourite/'+itemId).success(function(data) {
             });
             window.localStorage['itemIdsBox'] = JSON.stringify(itemIds);
             window.localStorage[itemId] = JSON.stringify(itemObj);

@@ -1,5 +1,6 @@
 .slider {
-    height: 200px;
+    height: 30%;
+    width:100%;
 }
 
 .vertical-text {
@@ -16,26 +17,26 @@ border-width: 0px;
 .heading {
   color: #333333;
    font-family: 'Bitter', serif;
-   font-size: 25px;
+   font-size: 135%;
     font-weight: normal;
-     line-height: 30px;
+     line-height: 150%;
      margin: 0 0 20px;
     }
 
     .item .icon .icon-badge {
       position: absolute;
-      right: 0px;
-      font-size: 8px;
+      right: 20%;
+      font-size: 30%;
     }
 
     .icon{
-      width : 40px;
+      width : 17%;
     }
 
 
-    .textDots{
+.textDots{
     display:inline-block;
-    width:160px;
+    width:80%;
     white-space: nowrap;
     overflow:hidden !important;
     text-overflow: ellipsis;
